@@ -10,10 +10,13 @@ Professional and enterprise features can be accessed with your license from Saxo
 
 Note: release v0.2.2 Upgraded to 1.1.0 API. The method names mirror http://www.saxonica.com/saxon-c/doc/html/index.html. There is now a
 command line switch for setting the Saxon/C home: --saxonc_home=<YOUR_SAXONC_HOME> for building
+
 ```
 npm install --build-from-source --saxonc_home=<YOUR_SAXONC_HOME>
 ```
+
 Note: release v0.2.2 is for Saxon/C 1.1.0.  For mac two native files need replaced.  Where you have Saxon-HEC1.1.0 installed:
+
 ```
       rm `pwd`/../Saxonica/Saxon-HEC1.1.0/Saxon.C.API/SaxonCGlue.h;
       wget --directory-prefix=`pwd`/../Saxonica/Saxon-HEC1.1.0/Saxon.C.API https://dev.saxonica.com/repos/archive/opensource/latest9.8/hec/Saxon.C.API/HEC/SaxonCGlue.h;
@@ -34,19 +37,22 @@ To tell it where the Saxon/C is set the environment variable SAXONC_HOME to path
 export SAXONC_HOME=/home/user/Software/Saxonica/Saxon-HEC1.0.2
 ```
 
-####Prebuilts
+#### Prebuilts
 
- linux-x64,linux-ia32, darwin-x64 and win32-ia32(no saxon-c 1.0.2 yet).
+linux-x64, linux-ia32, darwin-x64 and win32-ia32 (no saxon-c 1.0.2 yet).
 
 ```bash
 npm install --fallback-to-build
 ```
+
 will first try to find a compatible native prebuilt.  If it works you won't need development tools and compilers.
 
-####Building (only if needed; contact me if there is a particular prebuild you would use)
+#### Building (only if needed; contact me if there is a particular prebuild you would use)
+
 If a compatible prebuilt is not found, a number of environment variables are needed.
 For the build phase, as with integrating Saxon/C interface code in c/c++ applications the jni.h is needed.  Set JAVA_HOME and the binding.gyp locates the jni.h from there. Only the headers are used; libsaxon.so that comes wth Saxon/C is loaded from it's home folder.
 The libsaxon.so depends on $SAXONC_HOME/rt during runtime and it needs library paths $SAXONC_HOME:$SAXONC_HOME/rt/lib/amd64/jetvm:$SAXONC_HOME/rt/lib/amd64.  rt is the runtime <a href="http://www.excelsiorjet.com/">http://www.excelsiorjet.com/</a> that Saxon/C provides.
+
 To run it needs the harmony switch and at least nodejs v4.2.x. Make sure there isn't a java path to jvm in front of the Excelsior JET tool in rt folder:
 
 ```bash
@@ -55,7 +61,8 @@ node --harmony saxon-node.js /home/user/testing-grounds/BCL/analyze.xml /home/us
 ```
 Yet this isn't the purpose to run xslt as this small app.  The intention is the calling of the API from your applications.
 
-####To test
+#### To test
+
 ```bash
 export LD_LIBRARY_PATH=$SAXONC_HOME:$SAXONC_HOME/rt/lib/amd64/jetvm:$SAXONC_HOME/rt/lib/amd64:$LD_LIBRARY_PATH
 mocha --harmony --require should
